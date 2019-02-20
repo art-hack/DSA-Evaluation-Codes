@@ -21,7 +21,7 @@ typedef struct
 
 // function prototype declarations
 void printBin(int n);
-void enQueue(queue* q, char* a);
+void enQueue(queue* q, char* data);
 char* deQueue(queue* q);
 
 //declaration of global variable used in deQueue function to return string
@@ -74,11 +74,11 @@ void printBin(int n)
 		
 
 // functions of queue data structure
-void enQueue(queue* q, char* a)
+void enQueue(queue* q, char* data)
 {
 	struct node *temp = (struct node*)malloc(sizeof(struct node));
 	temp->data[0] = '\0';
-	strcpy(temp->data, a);
+	strcpy(temp->data, data);
 	temp->next = NULL;
 	
 	if(q->rear == NULL)
@@ -96,19 +96,21 @@ char* deQueue(queue* q)
 	if(q->front == NULL)
 		return NULL;
 		
-	a[0] = '\0';
-	strcpy(a, q->front->data);
-		
-	if(q->front == q->rear)
-	{
-		free(q->front);
-		q->rear = q->front = NULL;
-		return a;
-	}
+	a[0] = '\0';// setting string to null
+	strcpy(a, q->front->data);// a is global variable
 	
 	struct node* temp;
 	temp = q->front;
-	q->front = q->front->next;
+		
+	if(q->front == q->rear)
+	{
+		q->rear = q->front = NULL;
+	}
+	else
+        {
+	    	q->front = q->front->next;
+        }
+	
 	free(temp);
 	temp = NULL;
 	return a;
